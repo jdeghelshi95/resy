@@ -11,3 +11,17 @@ class Stays(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Cars (models.Model):
+    CAR_TYPE = (
+        ('S', 'Small Sedan'),
+        ('M', 'Medium CrossOver'),
+        ('L', 'Large Suv'),
+    )
+    name = (models.CharField(max_length = 100))
+    description = (models.CharField(max_length = 300))
+    fee = (models.CharField(max_length = 50))
+
+    def __str__(self):
+        return self.name
