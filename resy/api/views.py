@@ -22,14 +22,14 @@ class CarsView(APIView):
 
 class StaysView(APIView):
     def post(self, request):
-        cars = Car.objects.all()
-        serializer = StaySerializer(cars, many=True)
+        stays = Stay.objects.all()
+        serializer = StaySerializer(stays, many=True)
         return Response(serializer.data)
 
 class ActivitiesView(APIView):
     def post(self, request):
-        cars = Car.objects.all()
-        serializer = ActivitySerializer(cars, many=True)
+        activities = Activity.objects.all()
+        serializer = ActivitySerializer(activities, many=True)
         return Response(serializer.data)
 
 
