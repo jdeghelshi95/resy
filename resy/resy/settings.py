@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'api',
     'rest_framework',
+    "corsheaders",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -91,7 +92,8 @@ DATABASES = {
         'NAME': 'resy',
         }
 }
-
+CORS_ALLOWED_ORIGINS = ["http://localhost:3002",] # Use whichever port your React Frontend is running on
+# This option will also need to be configured to include your Applications URL when deployed online
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
