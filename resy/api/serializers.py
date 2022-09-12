@@ -1,6 +1,6 @@
 from nis import cat
 from rest_framework import serializers 
-from .models import Car,Activity,Stay
+from .models import Car,Activity,Stay, CarRes
 from django.contrib.auth import get_user_model
 import django.contrib.auth.password_validation as validations
 from django.contrib.auth.hashers import make_password
@@ -21,6 +21,11 @@ class StaySerializer(serializers.ModelSerializer):
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta: 
         model =  Activity
+        fields = '__all__'
+
+class CarResSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model =  CarRes
         fields = '__all__'
 
 
