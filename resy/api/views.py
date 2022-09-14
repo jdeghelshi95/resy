@@ -27,7 +27,14 @@ User = get_user_model()
 
 class ResItemView(viewsets.ModelViewSet):
     serializer_class = ResItemSerializer
-    queryset = ReservableItem.objects.all()
+    #queryset = ReservableItem.objects.all()
+
+    def get_queryset(self):
+        qs = ReservableItem.objects.all()
+        t = self.request.GET.get('type')
+        if t:
+            qs = qs.filter(type=t)
+        return qs
 
 # class ResDetail(self, res_item_id):
 

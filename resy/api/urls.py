@@ -5,19 +5,28 @@ from . import views
 
 
 # urlpatterns = [
-# path('register/', views.RegisterView.as_view() , name="register"),
-# path('login/', views.LoginView.as_view() , name="login"),
 
 
 # ]
 
 router = routers.SimpleRouter()
-router.register(r'reservable-items', views.ResItemView)
+router.register(r'reservable-items', views.ResItemView, basename='Items')
 router.register(r'reservations', views.ReservationView)
 router.register(r'res-media', views.ReservationMediaView)
 router.register(r'res-data', views.ReservationDataView)
+# router.register(r'register', views.RegisterView)
+# router.register(r'login', views.LoginView)
 
-urlpatterns = router.urls
+urlpatterns = [
+
+path('register/', views.RegisterView.as_view() , name="register"),
+path('login/', views.LoginView.as_view() , name="login"),
+
+]
+
+
+
+urlpatterns += router.urls
 
 
 
