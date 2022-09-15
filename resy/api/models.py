@@ -22,9 +22,9 @@ class ReservationItemData(models.Model):
     order = models.IntegerField()
 
 class ReservationItemMedia(models.Model):
-    reservation_item = models.ForeignKey(ReservableItem, on_delete=models.CASCADE)
+    reservation_item = models.ForeignKey(ReservableItem, on_delete=models.CASCADE, related_name='media')
     is_cover = models.BooleanField()
-    file = models.FileField()
+    file = models.FileField(upload_to='reservation-media')
     type = models.CharField(choices=[
         ['image', 'Image'],
         ['videos', 'Video']

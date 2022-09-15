@@ -9,9 +9,9 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
-
+import datetime 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'api',
     'rest_framework',
+    'rest_framework_jwt',
+    "rest_framework_jwt.blacklist",
     "corsheaders",
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -71,13 +75,15 @@ TEMPLATES = [
     },
 ]
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
+    'DEFAULT_RENDER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
         ''
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'api.authentication.JWTAuthentication', 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
     'DEFAUT_PERMISSION_CLASSES':(
         'rest_framework.permission.AllowAny'
@@ -87,6 +93,9 @@ REST_FRAMEWORK = {
 
 WSGI_APPLICATION = 'resy.wsgi.application'
 
+JWT_AUTH = {
+'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=240),
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -140,3 +149,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#MEDIA_URL = '/media/'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+DROPBOX_APP_KEY = 'yjgk8ag77s15s92'
+DROPBOX_APP_SECRET = '24k50g99szjgbqx'
+DROPBOX_OAUTH2_REFRESH_TOKEN = '67fDTIwH9CIAAAAAAAAAAVf43DypewnrN42hNglT5iS6m-DGdiP-qNblKMevSbfM'
+#DROPBOX_ROOT_PATH = 'media'
