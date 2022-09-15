@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.decorators import api_view
-from .serializers import ResSerializer,ResItemSerializer, ResItemDataSerializer, UserSerializer, ResItemMediaSerializer
+from .serializers import ResSerializer,ResItemSerializer, ResItemDataSerializer, UserSerializer, ResItemMediaSerializer, ResSerializerLight
 from .models import ReservableItem, ReservationItemData, ReservationItemMedia, Reservations
 
 #importing from generics?
@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from django.conf import settings
 import jwt
 User = get_user_model()
@@ -45,9 +45,23 @@ class ResItemView(viewsets.ModelViewSet):
 # Reservation View ----------------------------------------------------------------
 
 class ReservationView(viewsets.ModelViewSet):
-    serializer_class= ResSerializer
+    
     queryset = Reservations.objects.all()
 
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            print("LIGHT SERIAL")
+            return ResSerializer
+        print('aaaaa')
+        return ResSerializerLight
+
+    def create(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            serializer = ResSerializerLight(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(reservation_user=request.user)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=201, headers=headers)
 
     #   class ReservationView(APIView):
     # def get(self, request):
@@ -85,6 +99,9 @@ class ReservationDataView(viewsets.ModelViewSet):
 
 
 
+# test user ------------------------------
+# {"email":"apple@gmail.com", "password":"Helloworld123"}
+
 # USER AUTHENTICATION ----------------------------------------------------------------
 class LoginView(APIView):
     def get_user(self, email):
@@ -106,7 +123,7 @@ class LoginView(APIView):
             raise PermissionDenied({'message': 'Invalid Credentials'})
         
         token = jwt.encode({'sub': user.id}, settings.SECRET_KEY, algorithm='HS256')
-
+        login(self.request, user)
         return Response({'token': token, 'message': f'Welcome back {user.username}!'})
 
 class RegisterView(APIView):

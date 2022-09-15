@@ -13,6 +13,12 @@ class ResSerializer(serializers.ModelSerializer):
         model =  Reservations
         fields = '__all__'
 
+
+class ResSerializerLight(serializers.ModelSerializer):
+    class Meta: 
+        model =  Reservations
+        fields = ['start_date', 'end_date', 'reservation_item']
+
 class ResItemSerializer(serializers.ModelSerializer):
     class Meta: 
         model =  ReservableItem

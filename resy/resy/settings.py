@@ -74,10 +74,15 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
+        ''
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'api.authentication.JWTAuthentication', 
-    ]
+        'api.authentication.JWTAuthentication', 'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAUT_PERMISSION_CLASSES':(
+        'rest_framework.permission.AllowAny'
+    )
+
 }
 
 WSGI_APPLICATION = 'resy.wsgi.application'

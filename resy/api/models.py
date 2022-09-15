@@ -35,12 +35,12 @@ class ReservationItemMedia(models.Model):
 
 class Reservations(models.Model):
     reservation_item = models.ForeignKey(ReservableItem, on_delete=models.CASCADE)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
+    start_date = models.DateField()
+    end_date = models.DateField()
     status = models.CharField(max_length=20, choices = [
         ['requested', 'Requested'],
         ['rejected', 'Rejected'],
-    ])
+    ],  null=True, blank=True)
     #(...requested, rejected, booked, confiremd, completed)
     reservation_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
