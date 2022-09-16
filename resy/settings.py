@@ -24,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%%)qtbyhmumv-kflhkfuvp)&0kzzd)9xe+c00ag9%ya_)naw*)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+DEBUG = DEVELOPMENT_MODE
 
 ALLOWED_HOSTS = []
 
@@ -101,13 +102,25 @@ JWT_AUTH = {
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'resy',
-        }
-}
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000",'https://resy-front.herokuapp.com/'] # Use whichever port your React Frontend is running on
+import sys
+import dj_database_url
+
+
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'resy',
+            }
+    }
+
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+    }
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000",'https://resy-front.herokuapp.com'] # Use whichever port your React Frontend is running on
 # This option will also need to be configured to include your Applications URL when deployed online
 
 # Password validation
