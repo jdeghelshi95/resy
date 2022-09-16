@@ -148,8 +148,8 @@ class LoginView(ObtainAuthToken):
             'token': token.key
         })
 
-class HealthCheck(APIView):
-     def get(request):
+class HealthCheckView(APIView):
+     def get(self, request):
            return Response({"status": True})
 
 
