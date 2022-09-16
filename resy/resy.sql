@@ -1,3 +1,0 @@
---create resy
-
-CREATE TABLE 
