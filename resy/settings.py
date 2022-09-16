@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-%%)qtbyhmumv-kflhkfuvp)&0kzzd)9xe+c00ag9%ya_)naw*)
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 DEBUG = DEVELOPMENT_MODE
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
