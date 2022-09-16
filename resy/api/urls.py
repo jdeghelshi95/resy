@@ -12,7 +12,7 @@ from . import views
 router = routers.SimpleRouter()
 router.register(r'reservable-items', views.ResItemView, basename='Items')
 router.register(r'reservations', views.ReservationView)
-router.register(r'res-media', views.ReservationMediaView)
+router.register(r'res-media', views.ReservationMediaView, basename='media')
 router.register(r'res-data', views.ReservationDataView)
 # router.register(r'login', views.LoginView)
 

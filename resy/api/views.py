@@ -68,8 +68,14 @@ class ReservationView(viewsets.ModelViewSet):
 
 class ReservationMediaView(viewsets.ModelViewSet):
     serializer_class = ResItemMediaSerializer
-    queryset = ReservationItemMedia.objects.all()
+    #queryset = ReservationItemMedia.objects.all()
 
+    def get_queryset(self):
+        qs = ReservationItemMedia.objects.all()
+        r = self.request.GET.get('reservation')
+        if r:
+            qs = qs.filter(reservation_item_id=r)
+        return qs
 
 # class ReservationMediaView(APIView):
 #     def get(self, request):

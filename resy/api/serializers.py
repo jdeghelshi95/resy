@@ -12,8 +12,16 @@ class ResItemMediaSerializer(serializers.ModelSerializer):
         model =  ReservationItemMedia
         fields = '__all__'
 
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']
+
 class ResItemSerializer(serializers.ModelSerializer):
     media = ResItemMediaSerializer(read_only=True, many=True)
+    host = UserSerializer()
+
     class Meta: 
         model =  ReservableItem
         fields = '__all__'
