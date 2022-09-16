@@ -148,7 +148,9 @@ class LoginView(ObtainAuthToken):
             'token': token.key
         })
 
-
+class HealthCheck(APIView):
+     def get(request):
+           return Response({"status": True})
 
 
 # # class CarCreate
