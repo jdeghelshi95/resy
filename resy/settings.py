@@ -120,7 +120,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     DATABASES = {
         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
     }
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000",'https://resy-front.herokuapp.com'] # Use whichever port your React Frontend is running on
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000",'https://resy-front-jgmj2.ondigitalocean.app/'] # Use whichever port your React Frontend is running on
 # This option will also need to be configured to include your Applications URL when deployed online
 
 # Password validation
