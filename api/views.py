@@ -1,7 +1,7 @@
 from urllib import request
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from .serializers import ResSerializer,ResItemSerializer, ResItemDataSerializer, UserSerializer, ResItemMediaSerializer, ResSerializerLight
 from .models import ReservableItem, ReservationItemData, ReservationItemMedia, Reservations
@@ -58,20 +58,16 @@ class ReservationView(viewsets.ModelViewSet):
     def get_queryset(self):
         return Reservations.objects.filter(reservation_user=self.request.user)
 
+
+    def create(self, request):
+        serializer = ResSerializerLight(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_create(self, serializer):
-        save_data = {}
-        save_data["start_date"]  = self.request.data.get('start_date', "")
-        save_data["end_date"]  = self.request.data.get('end_date', "")
-        save_data["reservation_user"]  = self.request.data.get('reservation_user', 0)
-
-        reservation_item = self.request.data.get('reservation_item', 0)
-        reservation = ReservableItem.objects.get(pk=reservation_item)
-
-        save_data["reservation_item"] = reservation
-        
-        serializer.save(**save_data)
-
-
+        serializer.save(reservation_user=self.request.user)
 
     #   class ReservationView(APIView):
     # def get(self, request):
