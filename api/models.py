@@ -44,7 +44,8 @@ class Reservations(models.Model):
     #(...requested, rejected, booked, confiremd, completed)
     reservation_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
+# let me send new zoom link on codementor okay?
+# zoom has 40mins limit
 
 
 

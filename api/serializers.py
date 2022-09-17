@@ -27,7 +27,7 @@ class ResItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ResSerializer(serializers.ModelSerializer):
-    reservation_item = ResItemSerializer(read_only=True)
+    reservation_item = ResItemSerializer()
     class Meta: 
         model =  Reservations
         depth = 1   

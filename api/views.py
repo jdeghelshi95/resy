@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import generics
@@ -51,11 +52,26 @@ class ResItemView(viewsets.ModelViewSet):
 
 class ReservationView(viewsets.ModelViewSet):
     serializer_class = ResSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     queryset = Reservations.objects.all()
     def get_queryset(self):
         return Reservations.objects.filter(reservation_user=self.request.user)
+
+    def perform_create(self, serializer):
+        save_data = {}
+        save_data["start_date"]  = self.request.data.get('start_date', "")
+        save_data["end_date"]  = self.request.data.get('end_date', "")
+        save_data["reservation_user"]  = self.request.data.get('reservation_user', 0)
+
+        reservation_item = self.request.data.get('reservation_item', 0)
+        reservation = ReservableItem.objects.get(pk=reservation_item)
+
+        save_data["reservation_item"] = reservation
+        
+        serializer.save(**save_data)
+
+
 
     #   class ReservationView(APIView):
     # def get(self, request):
